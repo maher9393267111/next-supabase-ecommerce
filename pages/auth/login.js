@@ -4,7 +4,8 @@ import { Loader } from '../../components/ui/loader'
 import { supabase } from '../../helper/db'
 import {updateUser} from '../../helper/functions'
 import { useEffect } from 'react'
-import  UserLayout from '../../components/user/userLayout'
+import  UserLayout from '../../components/user/userlayout'
+import {toast} from 'react-toastify'
 export default function Signin() {
   const router = useRouter()
   const [userData, setUserData] = useState({
@@ -46,13 +47,22 @@ console.log('login user data ------>', user, error)
 
  
 try{
+  toast.success('Login Successfully')
+  setTimeout(() => {
+   
 
-
+    router.push('/')
+  }, 1000);
+ 
+ 
+  
+  
 
 
 
 }catch(err){
   console.log('err', err)
+  toast.error(err.message)
 }
 
 
@@ -82,12 +92,11 @@ try{
   }
 
   return (
-    <UserLayout>
+    <UserLayout auth={true}  name={'login'}>
     <div className='min-h-screen grid place-items-center text-xl'>
       <div className='w-2/3 lg:w-1/3 shadow-lg flex flex-col items-center'>
-        <h1 className='text-4xl font-semibold'>Login</h1>
-      
-       
+        <h1 className='text-4xl font-semibold'>Login
+        </h1>
         <div className='mt-8 w-full lg:w-auto px-4'>
           <p>Email</p>
           <input

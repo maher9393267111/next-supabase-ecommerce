@@ -45,8 +45,8 @@ useEffect(() => {
 
   <UserLayout>
 <div>
-  home page here 
- ?? {userinfo?.id}
+
+home page here
 </div>
 
   </UserLayout>

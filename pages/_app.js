@@ -8,6 +8,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+
 import Context from '../context/index'
 const queryClient = new QueryClient()
 function MyApp({ Component, pageProps }) {

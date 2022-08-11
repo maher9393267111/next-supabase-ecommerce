@@ -4,9 +4,11 @@ import { useContext } from "react";
 import { createContext } from "react";
 import { supabase } from "../helper/functions";
 import { toast } from "react-toastify";
-
+import  {findUser} from '../helper/functions'
 import { useRouter } from "next/router";
+
 const authContext = createContext();
+
 
 export const useglobal = () => {
   return useContext(authContext);
@@ -23,7 +25,7 @@ const AuthContext = ({ children }) => {
   const authuser = supabase?.auth.user();
   console.log("??????????", authuser);
 
-  useEffect(() => {}, []);
+
 
   // ----modal
 

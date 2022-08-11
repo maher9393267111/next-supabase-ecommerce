@@ -4,6 +4,8 @@ import { Loader } from '../../components/ui/loader'
 import { supabase } from '../../helper/db'
 import {updateUser} from '../../helper/functions'
 import { useEffect } from 'react'
+import  UserLayout from '../../components/user/userlayout'
+import {toast} from 'react-toastify'
 export default function Signup() {
   const router = useRouter()
   const [userData, setUserData] = useState({
@@ -53,7 +55,13 @@ const signup2 = async () => {
 const {user ,error}  = await supabase.auth.signUp({
   email : userData.email,
   password : userData.password,
-})
+},{
+  data : {
+    role:'user',
+  }
+}
+
+)
 
 console.log('auth-signup', user, error)
 
@@ -72,8 +80,10 @@ cart : [],
 wishlist : [],
  
 })
+toast.success('signup success verify your email')
 }catch(err){
   console.log('err', err)
+  toast.error(err.message)
 }
 
 
@@ -103,8 +113,9 @@ wishlist : [],
   }
 
   return (
+    <UserLayout auth={true}  name={'login'}>
     <div className='min-h-screen grid place-items-center text-xl'>
-      <div className='w-2/3 lg:w-1/3 shadow-lg flex flex-col items-center'>
+      <div className='w-2/3 lg:w-2/3 shadow-lg flex flex-col items-center'>
         <h1 className='text-4xl font-semibold'>Sign up</h1>
         <div className='mt-8 w-full lg:w-auto px-4'>
           <p>Name {userData?.name}</p>
@@ -164,5 +175,6 @@ wishlist : [],
         </div>
       </div>
     </div>
+    </UserLayout>
   )
 }

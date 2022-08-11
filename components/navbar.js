@@ -1,14 +1,52 @@
 import React from 'react';
-import {supabase} from '../helper/db';
+import { useglobal } from '../context';
+import { supabase } from '../helper/db';
+import { Button } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { findUser } from '../helper/functions';
+import Link from 'next/link';
+
+const Navbar = ({ }) => {
+
+const {userinfo ,setUserinfo} = useglobal();
+
+const authuser = supabase?.auth.user();
+
+console.log('userinfo is navberrr ----->', userinfo?.role)
 
 
-const Navbar = () => {
+useEffect(() => {
+
+    if (authuser) {
+        findUser(authuser).then(res => {
+            setUserinfo(res)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+}
+   ,  [authuser])
+
+
+const Logout = async() => {
+
+    const { error } = await supabase.auth.signOut()
+    setUserinfo({})
+}
+
+
+
     return (
         <div>
-            <div className="navbar bg-base-100">
+            <div className="navbar bg-base-100 mt-4">
   <div className="flex-1">
     <a className="btn btn-ghost normal-case text-xl">MYShop</a>
   </div>
+
+{ userinfo?.id  ? 
+
+(
+
   <div className="flex-none">
     <div className="dropdown dropdown-end">
       <label tabIndex="0" className="btn btn-ghost btn-circle">
@@ -36,15 +74,55 @@ const Navbar = () => {
       <ul tabIndex="0" className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <li>
           <a className="justify-between">
-            Profile
+            Profile <span className="text-gray-600">{userinfo?.name}</span>
             <span className="badge">New</span>
           </a>
         </li>
+
+{ userinfo?.role === 'admin' &&
+        <li>
+            <Link href="/admin/dashboard">
+          <h1 className="justify-between">
+
+         <span className="text-gray-600">{userinfo?.role} Dashboard</span>
+          
+          </h1>
+            </Link>
+        </li>
+}
+
         <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
+        <li
+        onClick={Logout}
+        ><a>Logout</a></li>
       </ul>
     </div>
   </div>
+) : ( 
+
+<div>
+
+<div className=' flex gap-10 '>
+<Button colorScheme='blue'>
+<Link href='/auth/login'>
+Login
+</Link>
+    </Button>
+<Button colorScheme='blue'>
+<Link href='/auth/signup'>
+Register
+</Link>
+    
+    
+   </Button>
+</div>
+
+
+</div>
+
+
+
+)}
 </div>
             
         </div>
