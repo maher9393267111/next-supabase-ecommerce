@@ -1,8 +1,41 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import Animate from '../components/animate'
+import Animate from '../components/ui/animate'
+import { supabase } from '../helper/db'
+import { useEffect } from 'react'
 export default function Home() {
+
+
+
+
+
+
+  const authuser =  supabase.auth.user();
+  console.log('authuser', authuser)
+
+useEffect(() => {
+updateUser()
+
+}, [authuser])
+
+// update users table with authuser data if verified
+
+const updateUser = async () => {
+
+  if (authuser) {
+
+  const { user, error } = await supabase.from('users').update({
+    verified: true,
+
+}).eq('id', authuser.id)
+console.log('updateUser', user, error)
+  }
+
+}
+
+
+
   return (
     <div className={styles.container}>
       <Head>
