@@ -2,6 +2,8 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Loader } from '../../components/ui/loader'
 import { supabase } from '../../helper/db'
+import {updateUser} from '../../helper/functions'
+import { useEffect } from 'react'
 export default function Signup() {
   const router = useRouter()
   const [userData, setUserData] = useState({
@@ -85,6 +87,13 @@ wishlist : [],
     }
   };
 
+  useEffect(() => {
+
+    authuser && updateUser(authuser)
+   
+   
+   }, [authuser])
+   
 
 
 
@@ -140,7 +149,7 @@ wishlist : [],
      
         <div className='mb-8 w-3/5'>
             {
-                loading ? <Loader/> :
+                loading ? <Loader height={'50px'} width= {'50px'}/> :
             
           <button
             className='bg-blue-500 text-white px-8 py-2 rounded w-full'

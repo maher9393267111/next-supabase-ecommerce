@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css'
 import Animate from '../components/ui/animate'
 import { supabase } from '../helper/db'
 import { useEffect } from 'react'
+import {updateUser} from '../helper/functions'
 export default function Home() {
 
 
@@ -15,24 +16,26 @@ export default function Home() {
   console.log('authuser', authuser)
 
 useEffect(() => {
-updateUser()
+
+ authuser && updateUser(authuser)
+
 
 }, [authuser])
 
 // update users table with authuser data if verified
 
-const updateUser = async () => {
+// const updateUser = async () => {
 
-  if (authuser) {
+//   if (authuser?.id) {
+// console.log('executing updateUser')
+//   const { user, error } = await supabase.from('users').update({
+//     verified: true,
 
-  const { user, error } = await supabase.from('users').update({
-    verified: true,
+// }).eq('id', authuser.id)
+// console.log('updateUser', user, error)
+//   }
 
-}).eq('id', authuser.id)
-console.log('updateUser', user, error)
-  }
-
-}
+// }
 
 
 
