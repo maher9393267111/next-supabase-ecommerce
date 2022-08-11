@@ -5,10 +5,12 @@ import Animate from '../components/ui/animate'
 import { supabase } from '../helper/db'
 import { useEffect } from 'react'
 import {updateUser} from '../helper/functions'
+import UserLayout from '../components/user/userlayout'
+import { useglobal } from '../context'
 export default function Home() {
 
 
-
+const {name} = useglobal();
 
 
 
@@ -40,6 +42,7 @@ useEffect(() => {
 
 
   return (
+
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
@@ -47,9 +50,13 @@ useEffect(() => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-    <div>
-      <Animate />
-    </div>
+  <UserLayout>
+<div>
+  home page here
+  {name}
+</div>
+
+  </UserLayout>
 
 
 
