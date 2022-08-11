@@ -1,13 +1,11 @@
-
-
 import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
+import { supabase } from "../helper/functions";
+import { toast } from "react-toastify";
 
-import {toast} from 'react-toastify';
-
-import {useRouter} from 'next/router';
+import { useRouter } from "next/router";
 const authContext = createContext();
 
 export const useglobal = () => {
@@ -17,62 +15,22 @@ export const useglobal = () => {
 const AuthContext = ({ children }) => {
   const [currentuser, setUser] = useState({});
   const [userinfo, setUserinfo] = useState({});
-  const [isModalVisible, setIsModalVisible] = useState(false);
-const [onotherUser, setOnotherUser] = useState(null);
- const [userownChats, setUserChats] = useState([]);
- const [name, setName] = useState('maher');
 
-const router = useRouter();
+  const [name, setName] = useState("maher");
 
+  const router = useRouter();
 
+  const authuser = supabase?.auth.user();
+  console.log("??????????", authuser);
 
-
- 
- 
-
-
-
-  useEffect(() => {
-  
-
-   
-  }, []);
+  useEffect(() => {}, []);
 
   // ----modal
 
-
-
-
-
-  
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
   const value = {
-  
-    name
-   
-   
- 
-  
+    name,
+    setUserinfo,
+    userinfo,
   };
   return <authContext.Provider {...{ value }}>{children}</authContext.Provider>;
 };

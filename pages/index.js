@@ -4,13 +4,13 @@ import styles from '../styles/Home.module.css'
 import Animate from '../components/ui/animate'
 import { supabase } from '../helper/db'
 import { useEffect } from 'react'
-import {updateUser} from '../helper/functions'
+import {updateUser ,findUser  } from '../helper/functions'
 import UserLayout from '../components/user/userlayout'
 import { useglobal } from '../context'
 export default function Home() {
 
 
-const {name} = useglobal();
+const {name ,   setUserinfo,userinfo,  } = useglobal();
 
 
 
@@ -20,24 +20,17 @@ const {name} = useglobal();
 useEffect(() => {
 
  authuser && updateUser(authuser)
+  authuser && findUser(authuser).then(user => {
+    setUserinfo(user)
+    console.log('userinfo is ----->', user)
+  })
 
 
 }, [authuser])
 
-// update users table with authuser data if verified
 
-// const updateUser = async () => {
 
-//   if (authuser?.id) {
-// console.log('executing updateUser')
-//   const { user, error } = await supabase.from('users').update({
-//     verified: true,
 
-// }).eq('id', authuser.id)
-// console.log('updateUser', user, error)
-//   }
-
-// }
 
 
 
@@ -52,8 +45,8 @@ useEffect(() => {
 
   <UserLayout>
 <div>
-  home page here
-  {name}
+  home page here 
+ ?? {userinfo?.id}
 </div>
 
   </UserLayout>

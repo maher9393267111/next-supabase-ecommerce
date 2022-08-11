@@ -12,4 +12,27 @@ export const updateUser = async (authuser) => {
     }
   
   }
-  
+
+
+  // find authuser data
+ export  const findUser = async (authuser) => {
+
+
+
+
+    const { data: user, error } = await supabase
+       .from("users")
+       .select("*")
+       .eq("id", authuser.id).single();
+     
+     console.log('findUser ---->', user, error)
+     
+     
+       
+     
+     return user
+     
+     
+     
+       }
+       

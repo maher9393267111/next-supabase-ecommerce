@@ -4,6 +4,7 @@ import { Loader } from '../../components/ui/loader'
 import { supabase } from '../../helper/db'
 import {updateUser} from '../../helper/functions'
 import { useEffect } from 'react'
+import  UserLayout from '../../components/user/userLayout'
 export default function Signin() {
   const router = useRouter()
   const [userData, setUserData] = useState({
@@ -81,6 +82,7 @@ try{
   }
 
   return (
+    <UserLayout>
     <div className='min-h-screen grid place-items-center text-xl'>
       <div className='w-2/3 lg:w-1/3 shadow-lg flex flex-col items-center'>
         <h1 className='text-4xl font-semibold'>Login</h1>
@@ -124,5 +126,6 @@ try{
         </div>
       </div>
     </div>
+    </UserLayout>
   )
 }
