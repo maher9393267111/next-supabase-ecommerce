@@ -1,5 +1,6 @@
 import React from 'react';
 import {useglobal} from '../../../context'
+import {deleteProduct } from '../../../helper/functions'
 const SingleTable = ({product ,  onOpen}) => {
 
 
@@ -33,7 +34,9 @@ setProductid(product)
 
     </button>
 
-    <button className='bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full'>
+    <button
+    onClick={()=>{deleteProduct(product.id)}}
+    className='bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full'>
         Delete
     </button>
 </div>

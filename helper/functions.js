@@ -137,3 +137,37 @@ if (error) {
 
   return updatedProduct;
 }
+
+
+// delete product by id
+
+
+export const deleteProduct = async (id) => {
+
+  // delete old images from storage and update new images then delete product
+
+  const {data:productimages, error} = await supabase.from("products").select( "images").eq("id", id).single();
+  console.log("id---->", id, error);
+
+  for (let img of productimages?.images){
+    console.log('imgaaaaa---->', img);
+   // console.log('ALl--->', productimages);
+    const {data,error} =  await supabase
+    .storage
+    .from('my-storage')
+    .remove([`products/${img.name}`]);
+
+    console.log("deleteProduct ---->", error   , 'data', data);
+
+  }
+console.log("AFTERRR productimages---->", productimages?.images);
+
+
+
+ // await supabase.from("products").delete().eq("id", id);
+
+
+//return  productimages
+
+
+}
