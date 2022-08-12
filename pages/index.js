@@ -3,15 +3,16 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Animate from '../components/ui/animate'
 import { supabase } from '../helper/db'
-import { useEffect } from 'react'
-import {updateUser ,findUser  } from '../helper/functions'
+import { useEffect,useState } from 'react'
+import {updateUser ,findUser ,fetchProducts } from '../helper/functions'
 import UserLayout from '../components/user/userlayout'
 import { useglobal } from '../context'
+
 export default function Home() {
 
 
 const {name ,   setUserinfo,userinfo,  } = useglobal();
-
+const [products, setProducts] = useState([])
 
 
   const authuser =  supabase.auth.user();
@@ -25,6 +26,10 @@ useEffect(() => {
     console.log('userinfo is ----->', user)
   })
 
+  fetchProducts().then(products => {
+    setProducts(products)
+    console.log('products is ----->', products)
+  })
 
 }, [authuser])
 
@@ -46,7 +51,12 @@ useEffect(() => {
   <UserLayout>
 <div>
 
-home page here
+
+<h1>{products?.length}</h1>
+<h2>
+ asa {products[0]?.images[0]}
+ <img src={products[0]?.images[0]} alt="" />
+</h2>
 </div>
 
   </UserLayout>

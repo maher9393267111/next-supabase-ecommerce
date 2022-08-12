@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import { supabase } from '../../../helper/db';
 import {Loader} from '../../ui/loader';
 import {Avatar} from '@chakra-ui/react'
+import {fetchCategories ,uploadImgs } from '../../../helper/functions';
 const Createform = () => {
 
 
@@ -15,6 +16,7 @@ const Createform = () => {
         description: '',
         images: [],
         category: '',
+        categories: [],
 
 
         
@@ -23,7 +25,7 @@ const Createform = () => {
 
       const [image, setImage] = useState('')
       const [uploading, setUploading] = useState(false)
-      const [file, setFile] = useState("");
+  
       const [imname, setImname] = useState('')
       const [loading, setLoading] = useState(false)
 const [files, setFiles] = useState([])
@@ -53,15 +55,15 @@ for (let image  of images) {
           const { data:imageData, error:imageError } = await supabase.storage.from('my-storage').getPublicUrl(`products/${image?.name}`)
           //download(image?.name)
     
-          imgArr.push(imageData)
-          console.log("imageData------->🛢️🛢️", imageData);
+          imgArr.push(imageData?.publicURL)
+        //  console.log("imageData------->🛢️🛢️", imageData);
         
           
     
      
-        console.log('imageError', imageError)
+      //  console.log('imageError', imageError)
     
-        if( file || imageData) {
+        if( files || imageData) {
         setUploading(false)
         }  
        console.log("imgArr------->", imgArr);
@@ -79,23 +81,49 @@ for (let image  of images) {
       };
 
 
+// fetch all categories from supabase
+
+
+
+
+
+
+useEffect(() => {
+
+    fetchCategories().then(res => {
+        setCatData({...catData, categories: res})
+    })
+    console.log("catData------->", catData?.categories);
+
+}, [])
+
+
+
+
+
       async function handleSubmit(e) {
        
         e.preventDefault();
       setLoading(true)
     
+// filter only url image from files array
+const filteredFiles = files.filter(file => file.publicURL)
+//console.log('files', filteredFiles)
+//console.log("filteredFiles------->", filteredFiles);
+
+
         const { data, error } = await supabase
           .from("products")
           .insert({
          
            admin_id : supabase.auth.user()?.id,
             name: catData.name,
-            slug: catData.slug,
+          
             quantity: catData.quantity,
             price: catData.price,
-            description: catData.description,
+            desc: catData.description,
             category_id: catData.category,
-            image: file?.publicURL,
+            images: files,
             sold:0,
           });
     
@@ -172,15 +200,26 @@ for (let image  of images) {
           <textarea
             className='h-12 focus:outline-none shadow-sm border p-4 rounded mt-2 w-full lg:w-auto'
             type='text'
-            name='desc'
+            name='description'
             value={catData.description}
              onChange={changeUserData}
           />
         </div>
 
+        <select 
+        onChange={(e) => setCatData({...catData, category: e.target.value})}
+        
+        className="select select-info w-full max-w-xs">
+  <option disabled selected>Select Category</option>
+  
+{ catData.categories?.map((cat, index) => (
+    <option key={index} value={cat.id}>{cat.name}</option>
+))}
 
 
+</select>
 
+{catData?.category}
 
 {/* ----image---- */}
 
@@ -193,7 +232,7 @@ for (let image  of images) {
             <div className= 'flex gap-4'>
                 {files.map((file, index) => (
                   <div key={index}>
-   <Avatar name='Dan Abrahmov' src={file?.publicURL} />
+   <Avatar name='Dan Abrahmov' src={file} />
                   </div>  
                 ))}
 
