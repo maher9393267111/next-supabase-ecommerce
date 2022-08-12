@@ -40,6 +40,8 @@ const [files, setFiles] = useState([])
         setUploading(true)
         const images = e.target.files;
         console.log("images------->", images);
+const imgArr = []
+
 
 for (let image  of images) {
 
@@ -51,19 +53,22 @@ for (let image  of images) {
           const { data:imageData, error:imageError } = await supabase.storage.from('my-storage').getPublicUrl(`products/${image?.name}`)
           //download(image?.name)
     
-          setFiles(imageData);
-          console.log("File-------->", file);
+          imgArr.push(imageData)
+          console.log("imageData------->🛢️🛢️", imageData);
+        
+          
     
-        console.log('imageData', imageData)
+     
         console.log('imageError', imageError)
     
         if( file || imageData) {
         setUploading(false)
         }  
-       
+       console.log("imgArr------->", imgArr);
 
-
-
+       setFiles((prevState) => [...imgArr]);
+     //    setFiles( imgAr)
+       console.log("File-------->", files);
 
 }
 
@@ -184,9 +189,17 @@ for (let image  of images) {
           { uploading ? (
               <Loader height={'50px'} width= {'50px'}/> 
           ) 
-          : file && file?.publicURL ? (
+          : files && files?.length > 0 ? (
+            <div className= 'flex gap-4'>
+                {files.map((file, index) => (
+                  <div key={index}>
+   <Avatar name='Dan Abrahmov' src={file?.publicURL} />
+                  </div>  
+                ))}
+
+            </div>
             
-            <Avatar name='Dan Abrahmov' src={file?.publicURL} />
+          
            
           ) : (
             <img src ='https://cdn1.iconfinder.com/data/icons/camera-and-photography-3/64/Camera_photography-256.png' className="mt-2 w-10 h-10" />
