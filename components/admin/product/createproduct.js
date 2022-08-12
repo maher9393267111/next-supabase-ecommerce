@@ -4,6 +4,7 @@ import { supabase } from '../../../helper/db';
 import {Loader} from '../../ui/loader';
 import {Avatar} from '@chakra-ui/react'
 import {fetchCategories ,uploadImgs } from '../../../helper/functions';
+import {toast } from 'react-toastify';
 const Createform = () => {
 
 
@@ -127,10 +128,30 @@ const filteredFiles = files.filter(file => file.publicURL)
             sold:0,
           });
     
-        console.log("inserted", data);
+       // console.log("inserted", data);
+toast.success("Product Created Successfully")
         setLoading(false)
+
+        setCatData({
+          name: '',
+          slug: '',
+          image: '',
+          quantity: '',
+          price: '', 
+       //   category: '',
+              description: '',        
+        })
+
+        setFiles([])
+        fetchCategories().then(res => {
+          setCatData({...catData, categories: res})
+      })
+          
+
+
     //    await getPosts();
     
+
         if (error) console.log("err", error);
       }
     

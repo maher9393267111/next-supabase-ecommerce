@@ -47,7 +47,7 @@ export const fetchProducts = async () => {
   const {data:products, error} = await supabase.from("products").select("*,category:category_id(*) "
 );
   
-  //console.log("fetchCategories ---->", categories, error);
+ // console.log("fetcسسسسas ---->", products, error);
   return products;
   }
   

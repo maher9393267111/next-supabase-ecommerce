@@ -71,6 +71,10 @@ const Createform = () => {
     
         console.log("inserted", data);
         setLoading(false)
+        
+        
+
+
     //    await getPosts();
     
         if (error) console.log("err", error);

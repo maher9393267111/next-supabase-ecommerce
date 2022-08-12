@@ -40,7 +40,9 @@ const Logout = async() => {
         <div>
             <div className="navbar bg-base-100 mt-4">
   <div className="flex-1">
-    <a className="btn btn-ghost normal-case text-xl">MYShop</a>
+    <Link href="/">
+    <p className="btn btn-ghost normal-case text-xl">MYShop</p>
+    </Link>
   </div>
 
 { userinfo?.id  ? 
