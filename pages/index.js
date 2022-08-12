@@ -24,11 +24,17 @@ useEffect(() => {
   authuser && findUser(authuser).then(user => {
     setUserinfo(user)
     console.log('userinfo is ----->', user)
+    
+
   })
 
-  fetchProducts().then(products => {
-    setProducts(products)
-    console.log('products is ----->', products)
+  fetchProducts().then(res => {
+ 
+ 
+    
+    setProducts(res)
+    console.log('products is ⏺⏺⏺ ----->', products)
+   
   })
 
 }, [authuser])
@@ -52,10 +58,10 @@ useEffect(() => {
 <div>
 
 
-<h1>{products?.length}</h1>
+<h1>{products?.[0]?.images[0]?.url}</h1>
 <h2>
- asa {products[0]?.images[0]}
- <img src={products[0]?.images[0]} alt="" />
+ asa {products[0]?.images[0]?.url}
+ <img src={products[0]?.images[0]?.url} alt="" />
 </h2>
 </div>
 

@@ -55,9 +55,9 @@ for (let image  of images) {
           const { data:imageData, error:imageError } = await supabase.storage.from('my-storage').getPublicUrl(`products/${image?.name}`)
           //download(image?.name)
     
-          imgArr.push(imageData?.publicURL)
-        //  console.log("imageData------->🛢️🛢️", imageData);
+       //   imgArr.push(imageData?.publicURL)
         
+        imgArr.push({name:image?.name,url:imageData?.publicURL})
           
     
      
@@ -232,7 +232,7 @@ const filteredFiles = files.filter(file => file.publicURL)
             <div className= 'flex gap-4'>
                 {files.map((file, index) => (
                   <div key={index}>
-   <Avatar name='Dan Abrahmov' src={file} />
+   <Avatar name='Dan Abrahmov' src={file?.url} />
                   </div>  
                 ))}
 
@@ -243,7 +243,7 @@ const filteredFiles = files.filter(file => file.publicURL)
           ) : (
             <img src ='https://cdn1.iconfinder.com/data/icons/camera-and-photography-3/64/Camera_photography-256.png' className="mt-2 w-10 h-10" />
           )}
-          <input onChange={uploadImage} type="file" multiple accept="images/*" hidden />
+          <input onChange={uploadImage} type="file" multiple ={true} accept="images/*" hidden />
         </label>
 
 
