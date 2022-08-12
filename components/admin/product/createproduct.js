@@ -10,6 +10,13 @@ const Createform = () => {
    
         name: '',
         slug: '',
+        quantity: '',
+        price: '',
+        description: '',
+        images: [],
+        category: '',
+
+
         
        
       })
@@ -19,6 +26,8 @@ const Createform = () => {
       const [file, setFile] = useState("");
       const [imname, setImname] = useState('')
       const [loading, setLoading] = useState(false)
+const [files, setFiles] = useState([])
+
 
 
     const changeUserData = ({ target: { name, value } }) => {
@@ -29,18 +38,20 @@ const Createform = () => {
       const uploadImage = async (e) => {
         // upload image to  supabase storage
         setUploading(true)
-        const image = e.target.files[0];
-        console.log("image", image);
-    
-        const { data, error } = await supabase.storage
+        const images = e.target.files;
+        console.log("images------->", images);
+
+for (let image  of images) {
+
+    const { data, error } = await supabase.storage
           .from("my-storage")
-          .upload(`category/${image?.name}`, image);
+          .upload(`products/${image?.name}`, image);
        
     
-          const { data:imageData, error:imageError } = await supabase.storage.from('my-storage').getPublicUrl(`category/${image?.name}`)
+          const { data:imageData, error:imageError } = await supabase.storage.from('my-storage').getPublicUrl(`products/${image?.name}`)
           //download(image?.name)
     
-          setFile(imageData);
+          setFiles(imageData);
           console.log("File-------->", file);
     
         console.log('imageData', imageData)
@@ -50,6 +61,15 @@ const Createform = () => {
         setUploading(false)
         }  
        
+
+
+
+
+}
+
+
+    
+    
       
       };
 
@@ -60,13 +80,18 @@ const Createform = () => {
       setLoading(true)
     
         const { data, error } = await supabase
-          .from("category")
+          .from("products")
           .insert({
-            products: ["product1", "product2"],
+         
            admin_id : supabase.auth.user()?.id,
             name: catData.name,
             slug: catData.slug,
+            quantity: catData.quantity,
+            price: catData.price,
+            description: catData.description,
+            category_id: catData.category,
             image: file?.publicURL,
+            sold:0,
           });
     
         console.log("inserted", data);
@@ -89,13 +114,13 @@ const Createform = () => {
 <div>
 <div className='min-h-screen w-2/3 grid place-items-center text-xl'>
       <div className='w-2/3 lg:w-2/3 shadow-lg flex flex-col items-center'>
-        <h1 className='text-4xl font-semibold'>Create Form
+        <h1 className='text-3xl font-semibold'>Create Product
         </h1>
         <div className='mt-8 w-full lg:w-auto px-4'>
           <p>name</p>
           <input
             type='text'
-            className='h-8 focus:outline-none shadow-sm border p-4 rounded mt-2 w-full lg:w-auto'
+            className='h-8 focus:outline-none shadow-xl border p-4 rounded mt-2 w-full lg:w-auto'
             name='name'
              value={catData.name}
              onChange={changeUserData}
@@ -112,6 +137,46 @@ const Createform = () => {
           />
         </div>
 
+        <div className='my-8 w-full lg:w-auto px-4'>
+          <p>quantity</p>
+          <input
+            className='h-8 focus:outline-none shadow-sm border p-4 rounded mt-2 w-full lg:w-auto'
+            type='number'
+            name='quantity'
+            value={catData.quantity}
+             onChange={changeUserData}
+          />
+        </div>
+
+
+        <div className='my-8 w-full lg:w-auto px-4'>
+          <p>Price</p>
+          <input
+            className='h-8 focus:outline-none shadow-sm border p-4 rounded mt-2 w-full lg:w-auto'
+            type='number'
+            name='price'
+            value={catData.price}
+             onChange={changeUserData}
+          />
+        </div>
+
+
+
+        <div className='my-8 w-full lg:w-auto px-4'>
+          <p>Desc</p>
+          <textarea
+            className='h-12 focus:outline-none shadow-sm border p-4 rounded mt-2 w-full lg:w-auto'
+            type='text'
+            name='desc'
+            value={catData.description}
+             onChange={changeUserData}
+          />
+        </div>
+
+
+
+
+
 {/* ----image---- */}
 
 
@@ -126,7 +191,7 @@ const Createform = () => {
           ) : (
             <img src ='https://cdn1.iconfinder.com/data/icons/camera-and-photography-3/64/Camera_photography-256.png' className="mt-2 w-10 h-10" />
           )}
-          <input onChange={uploadImage} type="file" accept="images/*" hidden />
+          <input onChange={uploadImage} type="file" multiple accept="images/*" hidden />
         </label>
 
 
