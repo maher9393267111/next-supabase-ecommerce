@@ -157,16 +157,17 @@ export const deleteProduct = async (id) => {
     .from('my-storage')
     .remove([`products/${img.name}`]);
 
-    console.log("deleteProduct ---->", error   , 'data', data);
+  //  console.log("deleteProduct ---->", error   , 'data', data);
 
   }
-console.log("AFTERRR productimages---->", productimages?.images);
+//console.log("AFTERRR productimages---->", productimages?.images);
 
 
 
- // await supabase.from("products").delete().eq("id", id);
+  const {data:deleted ,error :errordelete } = await supabase.from("products").delete().eq("id", id);
 
 
+  //console.log("deleteProduct ---->", deleted, errordelete);
 //return  productimages
 
 
