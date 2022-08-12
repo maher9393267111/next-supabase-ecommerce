@@ -4,17 +4,17 @@ import styles from '../styles/Home.module.css'
 import Animate from '../components/ui/animate'
 import { supabase } from '../helper/db'
 import { useEffect,useState } from 'react'
-import {updateUser ,findUser ,fetchProducts } from '../helper/functions'
+import {updateUser ,findUser ,fetchProducts , fetchProductsByCategory } from '../helper/functions'
 import UserLayout from '../components/user/userlayout'
 import { useglobal } from '../context'
-
+import {useRouter} from 'next/router'
 export default function Home() {
 
 
 const {name ,   setUserinfo,userinfo,  } = useglobal();
 const [products, setProducts] = useState([])
-
-
+const router = useRouter()
+const { category } = router.query;
   const authuser =  supabase.auth.user();
  // console.log('authuser', authuser)
 
@@ -28,6 +28,15 @@ useEffect(() => {
 
   })
 
+
+  if (category ) {
+    console.log('fetch products by category ----->', category)
+    fetchProductsByCategory(category).then(res => {
+      setProducts(res)
+    })
+  }
+
+else {
   fetchProducts().then(res => {
  
  
@@ -36,8 +45,9 @@ useEffect(() => {
     console.log('products is ⏺⏺⏺ ----->', products)
    
   })
+}
 
-}, [authuser])
+}, [authuser , category])
 
 
 
@@ -57,9 +67,10 @@ useEffect(() => {
   <UserLayout>
 <div>
 
+{products?.length}
 
 <div>
-  
+
 </div>
 
 

@@ -172,3 +172,17 @@ export const deleteProduct = async (id) => {
 
 
 }
+
+
+
+// fetch products by category name
+
+export const fetchProductsByCategory = async (catid) => {
+
+  const {data , error} = await supabase.from("products").select("*,category:category_id(*) ").eq("category_id", catid)
+
+  console.log("fetchProductsByCategory ---->", data, error);
+
+return  data;
+
+}
