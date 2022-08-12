@@ -8,6 +8,7 @@ import {updateUser ,findUser ,fetchProducts , fetchProductsByCategory } from '..
 import UserLayout from '../components/user/userlayout'
 import { useglobal } from '../context'
 import {useRouter} from 'next/router'
+import PublicProducts from '../components/global/publicProducts'
 export default function Home() {
 
 
@@ -67,9 +68,13 @@ else {
   <UserLayout>
 <div>
 
-{products?.length}
+{/* {products?.length} */}
 
-<div>
+<div className=' mb-12'>
+
+<PublicProducts products={products} />
+
+
 
 </div>
 

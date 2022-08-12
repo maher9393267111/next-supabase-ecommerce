@@ -10,7 +10,7 @@ export const updateUser = async (authuser) => {
         verified: true,
       })
       .eq("id", authuser.id);
-    console.log("updateUser", user, error);
+   // console.log("updateUser", user, error);
   }
 };
 
@@ -102,7 +102,7 @@ export const fetchProductById = async (id) => {
 
   const {data:product, error} = await supabase.from("products").select("*,category:category_id(*) ").eq("id", id).single();
 
-console.log("fetchProductById ---->", product, error);
+//console.log("fetchProductById ---->", product, error);
 return product;
 
 }
@@ -125,7 +125,7 @@ export const updateProduct = async (product) => {
     category_id: product.category_id,
    // images: product.images,
   }).eq("id", product.id);
-  console.log("updateProduct ---->", updatedProduct, error);
+  //console.log("updateProduct ---->", updatedProduct, error);
 
 if (updatedProduct) {
   toast.success("Product updated successfully");
@@ -150,7 +150,7 @@ export const deleteProduct = async (id) => {
   console.log("id---->", id, error);
 
   for (let img of productimages?.images){
-    console.log('imgaaaaa---->', img);
+  //  console.log('imgaaaaa---->', img);
    // console.log('ALl--->', productimages);
     const {data,error} =  await supabase
     .storage
@@ -181,8 +181,40 @@ export const fetchProductsByCategory = async (catid) => {
 
   const {data , error} = await supabase.from("products").select("*,category:category_id(*) ").eq("category_id", catid)
 
-  console.log("fetchProductsByCategory ---->", data, error);
+ //console.log("fetchProductsByCategory ---->", data, error);
 
 return  data;
+
+}
+
+
+// add to cart 
+
+export const addToCart = async (product) => {
+
+const {data : cart , error } = await supabase.from("userCart").insert(product);
+
+console.log("addToCart ---->", cart, error);
+if (cart) {
+  toast.success("Product added to cart successfully");
+}
+
+if (error) {
+toast.error(error.message);
+}
+
+
+}
+
+// find user cart from supabase table
+
+export const findUserCart = async (authuserID) => {
+console.log("authuserID 🔺️🔺️🔺️", authuserID);
+  const {data : cart , error } = await supabase.from("userCart").select("*").eq("user_id", authuserID);
+
+console.log("findUserCart ---->", cart, error);
+return  cart;
+
+
 
 }
