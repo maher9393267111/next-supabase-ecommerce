@@ -14,7 +14,7 @@ const Adminlayout = ({children}) => {
 
     const authuser = supabase?.auth.user();
     const {userinfo  } = useglobal();
-    console.log('userinfo is adminn----->', authuser?.user_metadata?.role)
+  //  console.log('userinfo is adminn----->', authuser?.user_metadata?.role)
 
 
 const router = useRouter();
@@ -49,7 +49,7 @@ useEffect(() => {
     return (
         <div>
             
-            <div className=' '>
+            <div className=' pb-12 mb-12'>
 
 
 <div>

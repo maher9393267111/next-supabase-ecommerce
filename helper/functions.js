@@ -43,7 +43,8 @@ return categories;
 
 export const fetchProducts = async () => {
 
-  const {data:products, error} = await supabase.from("products").select("*");
+  const {data:products, error} = await supabase.from("products").select("*,category:category_id(name) "
+);
   
   //console.log("fetchCategories ---->", categories, error);
   return products;

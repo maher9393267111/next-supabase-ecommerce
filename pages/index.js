@@ -16,14 +16,14 @@ const [products, setProducts] = useState([])
 
 
   const authuser =  supabase.auth.user();
-  console.log('authuser', authuser)
+ // console.log('authuser', authuser)
 
 useEffect(() => {
 
  authuser && updateUser(authuser)
   authuser && findUser(authuser).then(user => {
     setUserinfo(user)
-    console.log('userinfo is ----->', user)
+   // console.log('userinfo is ----->', user)
     
 
   })
@@ -58,11 +58,9 @@ useEffect(() => {
 <div>
 
 
-<h1>{products?.[0]?.images[0]?.url}</h1>
-<h2>
- asa {products[0]?.images[0]?.url}
- <img src={products[0]?.images[0]?.url} alt="" />
-</h2>
+
+
+
 </div>
 
   </UserLayout>
