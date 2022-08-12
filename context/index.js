@@ -17,7 +17,7 @@ export const useglobal = () => {
 const AuthContext = ({ children }) => {
   const [currentuser, setUser] = useState({});
   const [userinfo, setUserinfo] = useState({});
-
+const [productid , setProductid] = useState('')
   const [name, setName] = useState("maher");
 
   const router = useRouter();
@@ -33,6 +33,8 @@ const AuthContext = ({ children }) => {
     name,
     setUserinfo,
     userinfo,
+    productid , 
+    setProductid
   };
   return <authContext.Provider {...{ value }}>{children}</authContext.Provider>;
 };

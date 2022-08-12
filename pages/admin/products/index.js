@@ -4,12 +4,21 @@ import Createform from '../../../components/admin/product/createproduct';
 import {useState, useEffect} from 'react';  
 import {fetchProducts} from '../../../helper/functions';
 import ProductsTable from '../../../components/admin/product/productsTable';
+import UpdateModal from '../../../components/admin/product/updateModal';
+
+import { useDisclosure } from "@chakra-ui/react";
+
+
 const Products = () => {
 
 const [products, setProducts] = useState([])
 
+const { isOpen, onOpen, onClose } = useDisclosure()
+
 
 useEffect(() => {
+
+
 
     fetchProducts().then(res => {
  
@@ -35,8 +44,14 @@ useEffect(() => {
 {/* ----- products Table----- */}
 
 <div>
-    <ProductsTable products={products} />
+    <ProductsTable products={products} isOpen ={isOpen} onOpen ={onOpen} onClose ={onClose}  />
 </div>
+
+
+<div>
+    <UpdateModal isOpen ={isOpen} onOpen ={onOpen} onClose ={onClose} />
+</div>
+
 <div>
     
 </div>

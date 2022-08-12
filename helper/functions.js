@@ -1,5 +1,6 @@
 import { supabase } from "./db";
 import Resizer from "react-image-file-resizer";
+import { toast } from 'react-toastify';
 export const updateUser = async (authuser) => {
   if (authuser?.id) {
     console.log("executing updateUser");
@@ -43,7 +44,7 @@ return categories;
 
 export const fetchProducts = async () => {
 
-  const {data:products, error} = await supabase.from("products").select("*,category:category_id(name) "
+  const {data:products, error} = await supabase.from("products").select("*,category:category_id(*) "
 );
   
   //console.log("fetchCategories ---->", categories, error);
@@ -95,3 +96,44 @@ export const fetchProducts = async () => {
   };
   
 
+// fetch product by id
+
+export const fetchProductById = async (id) => {
+
+  const {data:product, error} = await supabase.from("products").select("*,category:category_id(*) ").eq("id", id).single();
+
+console.log("fetchProductById ---->", product, error);
+return product;
+
+}
+
+
+// update product by id
+
+export const updateProduct = async (product) => {
+
+
+// delete old images from storage and update new images
+
+
+
+
+  const {data:updatedProduct, error} = await supabase.from("products").update({
+    name: product.name,
+    price: product.price,
+    quantity: product.quantity,
+    category_id: product.category_id,
+   // images: product.images,
+  }).eq("id", product.id);
+  console.log("updateProduct ---->", updatedProduct, error);
+
+if (updatedProduct) {
+  toast.success("Product updated successfully");
+}
+
+if (error) {
+  toast.error(error.message);
+}
+
+  return updatedProduct;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import SingleTable from './singleTable';
-const ProductsTable = ({products}) => {
+const ProductsTable = ({products , isOpen, onOpen, onClose }) => {
     return (
     <div>
         <div class="overflow-x-auto">
@@ -14,6 +14,7 @@ const ProductsTable = ({products}) => {
         <th>price</th>
         <th>image</th>
         <th>category</th>
+        <th>Table</th>
       </tr>
     </thead>
 
@@ -21,18 +22,12 @@ const ProductsTable = ({products}) => {
 
     {products.map(product => (
 
-        <SingleTable key={product.id} product={product} />
+        <SingleTable key={product.id} product={product} isOpen ={isOpen} onOpen ={onOpen} />
 
 
     ))}
 
-      {/* <tr>
-        <th>1</th>
-        <td>Cy Ganderton</td>
-        <td>Quality Control Specialist</td>
-        <td>Blue</td>
-      </tr>
-    */}
+ 
      
     </tbody>
   </table>
