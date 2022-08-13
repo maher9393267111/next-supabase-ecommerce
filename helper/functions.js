@@ -302,3 +302,23 @@ export const decreaseCartQuantity = async (product) => {
 
 
   }
+
+
+  // search products with regex
+
+  export const searchProducts = async (search) => {
+  //  min12-pro
+ // const searchRegex = new RegExp(search, "i");
+
+const name = 'min12-pro'
+
+    const { data, error } = await supabase
+  .from('products')
+  .select('*')
+  .ilike('name', `%${search}%`)
+
+console.log("searchProducts ---->", data, error);
+
+return data;
+
+  }

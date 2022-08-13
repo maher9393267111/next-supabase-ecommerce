@@ -21,6 +21,7 @@ const [productid , setProductid] = useState('')
   const [name, setName] = useState("maher");
   const [refreshcart , setRefreshcart] = useState(false)
 const [cart, setCart] = useState([])
+const [search , setSearch] = useState('')
   const router = useRouter();
 
   const authuser = supabase?.auth.user();
@@ -37,7 +38,8 @@ const [cart, setCart] = useState([])
     productid , 
     setProductid ,
     refreshcart , setRefreshcart ,
-    cart, setCart
+    cart, setCart ,
+    search , setSearch
   };
   return <authContext.Provider {...{ value }}>{children}</authContext.Provider>;
 };

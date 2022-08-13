@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import Animate from '../components/ui/animate'
 import { supabase } from '../helper/db'
 import { useEffect,useState } from 'react'
-import {updateUser ,findUser ,fetchProducts , fetchProductsByCategory  } from '../helper/functions'
+import {updateUser ,findUser ,fetchProducts , fetchProductsByCategory ,  searchProducts  } from '../helper/functions'
 import UserLayout from '../components/user/userlayout'
 import { useglobal } from '../context'
 import {useRouter} from 'next/router'
@@ -13,11 +13,14 @@ import PublicProducts from '../components/global/publicProducts'
 export default function Home() {
 
 
-const {name ,   setUserinfo,userinfo,  } = useglobal();
+const {name ,   setUserinfo,userinfo,search , setSearch  } = useglobal();
 const [products, setProducts] = useState([])
 const router = useRouter()
 const { category } = router.query;
   const authuser =  supabase.auth.user();
+
+const [searchmode , setSearchmode] = useState(false)
+const [searchproducts , setSearchproducts] = useState([])
  // console.log('authuser', authuser)
 
 useEffect(() => {
@@ -31,25 +34,46 @@ useEffect(() => {
   })
 
 
-  if (category ) {
+   if ( search !== ''  || search !== undefined ) {
+    searchProducts(search).then(res => {
+
+    
+      console.log('search products is ⏺⏺⏺❇❇❇ ----->', res)
+      setSearchproducts(res)
+      setSearchmode(true)
+    })
+ 
+
+   }
+
+
+  
+
+ if (category ) {
+  setSearchmode('')
     console.log('fetch products by category ----->', category)
     fetchProductsByCategory(category).then(res => {
       setProducts(res)
     })
   }
 
-else {
+else if ( category === undefined   ) {
   fetchProducts().then(res => {
  
  
     
     setProducts(res)
-    console.log('products is ⏺⏺⏺ ----->', products)
+    setSearchmode(false)
+   // console.log('products is ⏺⏺⏺ ----->', products)
    
   })
+
+
+
+
 }
 
-}, [authuser , category])
+}, [authuser , category , search])
 
 
 
@@ -69,15 +93,29 @@ else {
   <UserLayout>
 <div>
 
+{/* {search} */}
 {/* {products?.length} */}
 
-<div className=' mb-12'>
+{/* { searchmode ?  (<div className=' mb-12'>
 
-<PublicProducts products={products} />
+<PublicProducts products={searchProducts} /> */}
+
+
+
+{/* </div>
+)   :  */}
+
+
+{searchmode ? 'search Mode' : ' normal mode'}
+
+ <div className=' mb-12'>
+
+<PublicProducts products={searchmode ? searchproducts : products } />
 
 
 
 </div>
+
 
 
 

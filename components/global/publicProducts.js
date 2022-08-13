@@ -7,13 +7,13 @@ const PublicProducts = ({products}) => {
 
 <div className= ' grid  sm:grid-cols-2 '>
 
-{products.map((product, index) => (
+{ products && products?.length > 0 ?  products?.map((product, index) => (
 
 <div key = {index}  className=' my-6 '>
 <ProductCard product={product} />
 </div>
 
-))}
+)) : <div className='text-center'>No products found</div>}
 
 
 </div>
