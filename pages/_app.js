@@ -8,6 +8,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import Drawerbar from '../components/global/drawerbar'
+
 
 import Context from '../context/index'
 const queryClient = new QueryClient()
@@ -29,6 +31,7 @@ function MyApp({ Component, pageProps }) {
       <QueryClientProvider client={queryClient}>
       <Context>
       <ChakraProvider>
+     
    <Component {...pageProps} />
 
       </ChakraProvider>

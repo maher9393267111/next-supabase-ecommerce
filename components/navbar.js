@@ -1,16 +1,33 @@
 import React from 'react';
 import { useglobal } from '../context';
 import { supabase } from '../helper/db';
-import { Button } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { findUser , findUserCart  } from '../helper/functions';
-import Link from 'next/link';
 
-const Navbar = ({ }) => {
+import { useEffect, useState ,useRef } from 'react';
+import { findUser , findUserCart  } from '../helper/functions';
+//import Drawerbar from './global/drawerbar';
+import Link from 'next/link';
+import {
+  Button,
+ 
+  useDisclosure,
+ 
+  Input,
+ 
+  
+  Drawer,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+    DrawerHeader,
+    DrawerBody,
+    DrawerFooter,
+
+} from "@chakra-ui/react";
+const Navbar = ({   }) => {
 
 const {userinfo ,setUserinfo ,  refreshcart , cart ,setCart} = useglobal();
 
-
+ const { isOpen, onOpen, onClose } = useDisclosure()
 const authuser = supabase?.auth.user();
 
 //console.log('userinfo is navberrr ----->', userinfo?.role)
@@ -43,6 +60,15 @@ const Logout = async() => {
 }
 
 
+const handleopen = (product) => {
+  onOpen()
+
+  
+  }
+  
+
+
+
 
     return (
         <div>
@@ -70,7 +96,9 @@ const Logout = async() => {
           <span className="font-bold text-lg">{cart?.length} Items</span>
           <span className="text-info">Subtotal: $999</span>
           <div className="card-actions">
-            <button className="btn btn-primary btn-block">View cart</button>
+            <button
+            onClick={onOpen}
+            className="btn btn-primary btn-block">View cart</button>
           </div>
         </div>
       </div>
@@ -134,9 +162,57 @@ Register
 
 )}
 </div>
+            <Drawerbar 
+              onClose ={onClose}
+              isOpen={isOpen}
+             />
             
         </div>
     );
 }
 
 export default Navbar;
+
+
+
+const Drawerbar = ( {isOpen,onClose} ) => {
+
+
+    const btnRef = React.useRef()
+    return (
+        <div>
+              <>
+      {/* <Button ref={btnRef} colorScheme='teal' onClick={onOpen}>
+        Open
+      </Button> */}
+      <Drawer
+        isOpen={isOpen}
+        placement='right'
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Create your account</DrawerHeader>
+
+          <DrawerBody>
+            <Input placeholder='Type here...' />
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button variant='outline' mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme='blue'>Save</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </>
+  
+            
+        </div>
+    );
+}
+
+// export default Drawerbar;

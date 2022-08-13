@@ -5,13 +5,20 @@ import Navbar from '../navbar';
 import Sidebar from './sidebar';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDisclosure} from "@chakra-ui/react";
+
 const UserLayout = ({children ,auth=false ,name}) => {
+
+  
+
     return (
         <div className=' '>
 
 
             <div>
-                <Navbar />
+                <Navbar  />
+
+             
 
             </div>
             <ToastContainer position="top-center" />
