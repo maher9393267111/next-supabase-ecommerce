@@ -314,7 +314,7 @@ const name = 'min12-pro'
 
     const { data, error } = await supabase
   .from('products')
-  .select('*')
+  .select("*,category:category_id(*) ")
   .ilike('name', `%${search}%`)
 
 console.log("searchProducts ---->", data, error);
