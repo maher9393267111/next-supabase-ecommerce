@@ -22,6 +22,7 @@ category_name:product.category?.name,
 category_id:product.category?.id,
 image:product?.images[0]?.url,
 product_name:product.name,
+in_storage:product.quantity,
 
 }
 addToCart(prdobj)
@@ -48,9 +49,9 @@ const usercart =(authuserID) => {
 
 
 
-const remove = (productid) => {
+const remove = async(productid) => {
 
-    removeFromCart(productid)
+ await   removeFromCart(productid)
     usercart(authuser?.id)
 }
 
@@ -61,8 +62,9 @@ const remove = (productid) => {
   <figure><img src={product?.images[0]?.url} alt="Shoes" /></figure>
   <div class="card-body">
     <h2 class="card-title">
-      Shoes! {cart.length}
+      {product?.name} 
       <div class="badge badge-secondary">NEW</div>
+      <div class="badge badge-secondary">${product?.price}</div>
     </h2>
     <p>{product?.desc.slice(0,47)} .....</p>
     <div class="card-actions justify-center">

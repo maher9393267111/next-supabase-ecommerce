@@ -239,3 +239,50 @@ if (error) {
 
 
 }
+
+
+// update product quantity in cart ++
+
+export const updateCartQuantity = async (product) => {
+console.log("product_id", product );
+
+// find product by prodcut_id in cart table
+const {data : cart , error } = await supabase.from("userCart").select("*").eq("product_id", product.product_id).single();
+
+console.log("updateCartQuantity ---->", cart, error);
+
+
+cart.quantity += 1
+// update product quantity in cart table
+
+const {data : cartupdate , error:errorupdate } = await supabase.from("userCart").update({
+  quantity: cart.quantity,
+}).eq("product_id", product.product_id);
+
+
+console.log("updateCartQuantity ---->", cartupdate, errorupdate);
+//toast.success("Product quantity updated successfully");
+}
+
+
+
+export const decreaseCartQuantity = async (product) => {
+  console.log("product_id", product );
+  
+  // find product by prodcut_id in cart table
+  const {data : cart , error } = await supabase.from("userCart").select("*").eq("product_id", product.product_id).single();
+  
+  console.log("updateCartQuantity ---->", cart, error);
+  
+  
+  cart.quantity -= 1
+  // update product quantity in cart table
+  
+  const {data : cartupdate , error:errorupdate } = await supabase.from("userCart").update({
+    quantity: cart.quantity,
+  }).eq("product_id", product.product_id);
+  
+  
+  console.log("updateCartQuantity ---->", cartupdate, errorupdate);
+  //toast.success("Product quantity updated successfully");
+  }

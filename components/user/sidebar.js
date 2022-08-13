@@ -26,7 +26,7 @@ useEffect(() => {
 
     return (
        <div>
-        <h1>sidebar</h1>
+        <h1 className='font-bold badge badge-secondary'><Link  href ='/'>ALLPRODUCTS</Link> </h1>
 
 <div>
 
