@@ -3,7 +3,7 @@ import { useglobal } from '../context';
 import { supabase } from '../helper/db';
 import { Dialog, Transition } from '@headlessui/react'
 import { useEffect, useState ,useRef } from 'react';
-import { findUser , findUserCart ,  updateCartQuantity ,  decreaseCartQuantity ,  removeFromCart } from '../helper/functions';
+import { findUser , findUserCart ,  updateCartQuantity ,  decreaseCartQuantity ,  removeFromCart , cartTotalPrice  } from '../helper/functions';
 //import { XIcon } from '@heroicons/react/outline'
 //import Drawerbar from './global/drawerbar';
 import Link from 'next/link';
@@ -31,7 +31,7 @@ const {userinfo ,setUserinfo ,  refreshcart , cart ,setCart} = useglobal();
 const [count, setCount] = useState(0);
  const { isOpen, onOpen, onClose } = useDisclosure()
 const authuser = supabase?.auth.user();
-
+const [total, setTotal] = useState(0);
 //console.log('userinfo is navberrr ----->', userinfo?.role)
 
 const incrementCount = async(product) => {
@@ -65,7 +65,7 @@ const decreamentCount = async(product) => {
    else {
     setCount(count + 1);
  await   decreaseCartQuantity(product  )
-   usercartfind (authuser?.id)
+    usercartfind (authuser?.id)
   }
 
 
@@ -102,10 +102,19 @@ useEffect(() => {
 
 
 
-const usercartfind = (userid) => {
-  findUserCart(userid).then(res => {
+const usercartfind = async(userid) => {
+ await findUserCart(userid).then(res => {
     //  console.log('cart is ----->', res)
         setCart(res)
+
+      
+       
+    })
+
+    // calculate total price of cart
+    cartTotalPrice(authuser.id).then(res => {
+
+      setTotal(res)
     })
 
 
@@ -230,6 +239,7 @@ Register
               incrementCount={incrementCount}
               decreamentCount={decreamentCount}
               removeproduct={removeproduct}
+              total={total}
              />
             
         </div>
@@ -240,7 +250,7 @@ export default Navbar;
 
 
 
-const Drawerbar = ( {isOpen,onClose ,cart ,  incrementCount ,  decreamentCount , removeproduct } ) => {
+const Drawerbar = ( {isOpen,onClose ,cart ,  incrementCount ,  decreamentCount , removeproduct  , total} ) => {
 
 
     const btnRef = React.useRef()
@@ -345,7 +355,7 @@ onClick={()=>{ decreamentCount(product) }}
 
                     <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
-                        <p>Subtotal</p>
+                        <p>:::{total}</p>
                         <p>$262.00</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>

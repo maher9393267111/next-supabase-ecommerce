@@ -286,3 +286,19 @@ export const decreaseCartQuantity = async (product) => {
   console.log("updateCartQuantity ---->", cartupdate, errorupdate);
   //toast.success("Product quantity updated successfully");
   }
+
+
+  // cart total price
+  export const cartTotalPrice = async (authuserID) => {
+
+    const {data : cart , error } = await supabase.from("userCart").select("*").eq("user_id", authuserID);
+    console.log("cartTotalPrice ---->", cart, error);
+    let total = 0;
+    for (let item of cart){
+      total += item.quantity * item.product_price;
+    }
+    console.log("cartTotalPrice 🛢🚨🛢🚨🛢🚨 ---->", total);
+    return total;
+
+
+  }
