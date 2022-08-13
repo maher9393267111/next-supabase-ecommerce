@@ -218,3 +218,24 @@ return  cart;
 
 
 }
+
+
+// remove from cart
+
+
+export const removeFromCart = async (productid) => {
+
+  const {data : cart , error } = await supabase.from("userCart").delete().eq("product_id", productid);
+
+console.log("removeFromCart ---->", cart, error);
+
+
+if  (cart){
+  toast.success("Product removed from cart successfully");
+}
+if (error) {
+  toast.error(error.message);
+}
+
+
+}

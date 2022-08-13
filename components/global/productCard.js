@@ -1,5 +1,5 @@
 import React from 'react';
-import {addToCart , findUserCart } from '../../helper/functions';
+import {addToCart , findUserCart ,  removeFromCart  } from '../../helper/functions';
 import {useState, useEffect} from 'react';
 import { supabase } from '../../helper/db';
 import { useglobal } from '../../context';
@@ -47,6 +47,14 @@ const usercart =(authuserID) => {
 }
 
 
+
+const remove = (productid) => {
+
+    removeFromCart(productid)
+    usercart(authuser?.id)
+}
+
+
     return (
         <div className = 'w-[300px]'>
             <div class="card w-auto bg-base-100 shadow-xl">
@@ -60,11 +68,11 @@ const usercart =(authuserID) => {
     <div class="card-actions justify-center">
       <div class="badge cursor-pointer badge-outline">wishlist</div> 
       <button
-      disabled={cart.some(item => item.product_id === product.id)}
-      onClick={() => add(product)}
+     // disabled={cart.some(item => item.product_id === product.id)}
+      onClick={() => cart.some(item => item.product_id === product.id) ? remove(product.id) : add(product)}
       
-      class="badge  cursor-pointer badge-outline">{
-cart.find(item => item.product_id === product.id) ? 'in cart' : 'add to cart'
+      class="badge  cursor-pointer badge-warning">{
+cart.find(item => item.product_id === product.id) ? 'remove from cart' : 'add to cart'
 
 
       }</button>
