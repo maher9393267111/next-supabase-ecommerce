@@ -51,9 +51,12 @@ useEffect(() => {
 
  if (category ) {
   setSearchmode('')
+  router.push('/?category='+category)
+
     console.log('fetch products by category ----->', category)
     fetchProductsByCategory(category).then(res => {
       setProducts(res)
+      setSearchmode(false)
     })
   }
 
